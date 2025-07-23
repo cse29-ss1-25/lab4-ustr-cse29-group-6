@@ -34,7 +34,8 @@ Given a list of strings and a separator string, returns a single string
 containing all the strings in list joined by the separator.
 */
 UStr join(List* list, UStr separator) {
-	int length = list->size * sizeof(UStr) + ((list->size-1) * sizeof(separator));
+	
+	int length = list->size * sizeof(UStr) + ((list->size-1) * utf8_codepoint_size(separator));
 	char* new_contents = malloc(length + 1);
 	int j = 0;
 	for(int i = 0; i < list->size; i++){
