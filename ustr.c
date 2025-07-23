@@ -37,7 +37,19 @@ and ending at index end (exclusive).
 Returns an empty string on invalid range.
 */
 UStr substring(UStr s, int32_t start, int32_t end) {
-	// TODO: implement this
+	int32_t length = end - start;
+	
+	if(length <= 0 || start < 0 || start >= s.bytes || length > s.bytes){
+               return new_ustr("");
+        }
+
+
+	char* new_contents = malloc(length + 1);
+	memcpy(new_contents, s.contents + start, length);
+       	new_contents[length] = '\0';
+	UStr result = new_ustr(new_contents);
+	free(new_contents);
+	return result;
 
 }
 
@@ -46,8 +58,15 @@ Given 2 strings s1 and s2, returns a string that is the result of
 concatenating s1 and s2. 
 */
 UStr concat(UStr s1, UStr s2) {
-	// TODO: implement this
-
+	int32_t new_length = s1.bytes + s2.bytes;
+	char* new_contents = malloc(new_length + 1);
+	strcpy(new_contents, s1.contents);
+	strcpy(new_contents + s1.bytes, s2.contents);
+	UStr new_str = new_ustr(new_contents);
+	free(new_contents);
+	free_ustr(s1);
+	free_ustr(s2);
+	return new_str;
 }
 
 /*
